@@ -22,6 +22,7 @@ export default {
       "Rose-400": "hsl(7, 20%, 60%)",
       "Rose-500": "hsl(12, 20%, 44%)",
       "Rose-900": "hsl(14, 65%, 9%)",
+      black: "rgba(0, 0, 0, 0.427)",
     },
     extend: {},
   },

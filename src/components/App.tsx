@@ -2,8 +2,9 @@ import DesertsList from "./DesertsList";
 import data from "../data.json";
 import Cart from "./Cart";
 import { useState } from "react";
+import OrderConfirm from "./OrderConfirm";
 
-type CartItemsType = {
+export type CartItemsType = {
   name: string;
   price: number;
   id: number;
@@ -14,6 +15,7 @@ type CartItemsType = {
 export default function App() {
   const [cartItems, setCartItems] = useState<CartItemsType[]>([]);
   const [addToCartClicked, setAddToCartClicked] = useState<boolean>(false);
+  const [confirm, setConfirm] = useState<boolean>(false);
 
   const handleAddToCard = (id: number) => {
     const filtered = data.find((item) => item.id === id);
@@ -36,7 +38,7 @@ export default function App() {
           ? {
               ...item,
               count: item.count + 1,
-              totalPrice: item.totalPrice + item.count * item.price,
+              totalPrice: (item.count + 1) * item.price,
             }
           : item
       )
@@ -47,19 +49,30 @@ export default function App() {
   const handleCountDecrement = (id: number) => {
     setCartItems((prevItem) =>
       prevItem.map((item) =>
-        item.id === id && item.count > 0
-          ? { ...item, count: item.count - 1 }
+        item.id === id && item.count > 1
+          ? {
+              ...item,
+              count: item.count - 1,
+              totalPrice: (item.count - 1) * item.price,
+            }
           : item
       )
     );
   };
 
-  const getCount = (count: number) => {
-    return count;
+  const reset = () => {
+    setCartItems([]);
+    setConfirm(false);
   };
 
   return (
-    <div className="mx-5 md:mx-[60px] sm:grid sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-x-4 mt-6">
+    <div className="mx-5 md:mx-[80px] sm:grid sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-x-4 mt-6">
+      {confirm && (
+        <div
+          onClick={() => setConfirm(false)}
+          className="absolute top-0 right-0 bottom-0 w-full height-screen bg-black z-50"
+        ></div>
+      )}
       <DesertsList
         items={data}
         onAddToCart={handleAddToCard}
@@ -72,8 +85,9 @@ export default function App() {
       <Cart
         cartItems={cartItems}
         onDelete={handleDeleteFromCart}
-        getCount={getCount}
+        setConfirm={setConfirm}
       />
+      {confirm && <OrderConfirm reset={reset} cartItems={cartItems} />}
     </div>
   );
 }

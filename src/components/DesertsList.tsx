@@ -5,6 +5,7 @@ type CartItemsType = {
   price: number;
   id: number;
   count: number;
+  totalPrice: number;
 };
 
 type DesertsListProps = {

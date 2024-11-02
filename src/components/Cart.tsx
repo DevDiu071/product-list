@@ -2,7 +2,7 @@ import CartContent from "./CartContent";
 
 type ItemsProps = {
   onDelete: (id: number) => void;
-  getCount: (count: number) => number;
+  setConfirm: React.Dispatch<React.SetStateAction<boolean>>;
   cartItems: {
     name: string;
     price: number;
@@ -12,7 +12,7 @@ type ItemsProps = {
   }[];
 };
 
-export default function Cart({ cartItems, onDelete }: ItemsProps) {
+export default function Cart({ cartItems, onDelete, setConfirm }: ItemsProps) {
   return (
     <div className="bg-white p-6 md:col-span-2 sm:self-start">
       <h2 className="text-3xl text-red font-bold sm:text-lg">
@@ -35,7 +35,10 @@ export default function Cart({ cartItems, onDelete }: ItemsProps) {
       )}
 
       {cartItems.length > 0 && (
-        <button className="bg-red py-2 px-6 text-sm rounded-3xl w-full text-white">
+        <button
+          onClick={() => setConfirm(true)}
+          className="bg-red py-2 px-6 text-sm rounded-3xl w-full text-white"
+        >
           Confirm Order
         </button>
       )}
