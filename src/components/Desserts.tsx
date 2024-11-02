@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { CiCircleMinus } from "react-icons/ci";
 import { CiCirclePlus } from "react-icons/ci";
-import clsx from "clsx";
 
 type CartItemsType = {
   name: string;
